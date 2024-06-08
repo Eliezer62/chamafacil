@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DepartamentController;
+use App\Http\Controllers\GroupController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -27,6 +28,10 @@ Route::prefix('/departament')
 //Rotas para grupos
 Route::prefix('/group')
     ->group(function(){
-        Route::get('/');
+        Route::get('/', [GroupController::class, 'index'])
+            ->name('index');
+
+        Route::get('/{uuid}', [GroupController::class, 'show'])
+            ->name('show');
 
     })->name('group.');
