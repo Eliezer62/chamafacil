@@ -9,8 +9,24 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 
 
+//Rotas para departamento
 Route::prefix('/departament')
     ->group(function(){
-        Route::get('/', [DepartamentController::class, 'index']);
+        Route::get('/', [DepartamentController::class, 'index'])
+            ->name('index');
+
+        Route::get('/{uuid}', [DepartamentController::class, 'show'])
+            ->name('show');
+
+        Route::put('/{uuid}', [DepartamentController::class, 'update'])
+            ->name('update');
     })
-    ->name('departament');
+    ->name('departament.');
+
+
+//Rotas para grupos
+Route::prefix('/group')
+    ->group(function(){
+        Route::get('/');
+
+    })->name('group.');

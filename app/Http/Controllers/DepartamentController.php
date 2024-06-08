@@ -11,4 +11,24 @@ class DepartamentController extends Controller
     {
         return Departament::all();
     }
+
+
+    public function show(string $uuid)
+    {
+        return Departament::find($uuid);
+    }
+
+
+    public function update(Request $request, string $uuid)
+    {
+        $validado = $request->validate(
+            [
+                'nome'=>'string|max:255',
+                'descricao'=>'string|max:255'
+            ]
+            );
+        $departamento = Departament::find($uuid);
+        $departamento->update($validado);
+        return $departamento;
+    }
 }
