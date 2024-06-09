@@ -1,9 +1,10 @@
 <?php
 
+namespace App\Http\Controllers;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\DepartamentController;
-use App\Http\Controllers\GroupController;
+
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -33,5 +34,8 @@ Route::prefix('/group')
 
         Route::get('/{uuid}', [GroupController::class, 'show'])
             ->name('show');
+
+        Route::get('/{uuid}/users', [GroupController::class, 'getUsers'])
+            ->name('getusers');
 
     })->name('group.');
