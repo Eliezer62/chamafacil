@@ -42,3 +42,31 @@ Route::prefix('/group')
             ->name('users');
 
     })->name('group.');
+
+
+Route::prefix('/chamado')
+    ->group(function(){
+        Route::get('/', [ChamadoController::class, 'index'])
+            ->name('index');
+        
+        Route::get('/{uuid}', [ChamadoController::class, 'show'])
+            ->name('show');
+        
+        Route::post('/', [ChamadoController::class, 'store'])
+            ->name('store');
+
+        //Para o chamado atender um suporte
+        Route::post('/{uuid}/atender', [ChamadoController::class, 'atenderChamado'])
+            ->name('atender');
+
+        /**
+         * Rotas para alterar dados do chamado
+         * que não podem ser alterados via campo
+         */
+        Route::prefix('/{uuid}/alterar')
+            ->group(function(){
+                //Altera o departamento do chamado
+                Route::post('/departament', [ChamadoController::class, 'alterarDepartamento'])
+                    ->name('departamento');
+            })->name('alterar.');
+    })->name('chamado.');
