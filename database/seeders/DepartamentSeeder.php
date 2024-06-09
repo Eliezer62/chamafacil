@@ -27,5 +27,10 @@ class DepartamentSeeder extends Seeder
             'nome'=>'Sistemas',
             'descricao'=>'Suporte em Sistemas de informação'
         ]);
+
+        Departament::create([
+            'nome'=>'Administrador',
+            'descricao'=>'Administrador do sistema ChamaFácil'
+        ]);
     }
 }
