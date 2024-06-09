@@ -5,12 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:sanctum');
-
-
 //Rotas para departamento
 Route::prefix('/departament')
     ->group(function(){
@@ -103,3 +97,26 @@ Route::prefix('/auth')
             ->name('refresh');
     })
     ->name('auth.');
+
+//Rotas para user
+
+Route::group(
+    [
+    'prefix'=>'/user',
+    'middleware'=>'api:auth'
+    ], function(){
+    Route::get('/')
+    ->name('index');
+
+    Route::get('/{uuid}')
+    ->name('show');
+
+    Route::post('/')
+    ->name('store');
+
+    Route::put('/{uuid}')
+    ->name('edit');
+
+    Route::delete('/{uuid}')
+    ->name('delete');
+})->name('user.');
