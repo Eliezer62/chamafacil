@@ -19,22 +19,29 @@ return new class extends Migration
             $table->string('telefone_solicitante', 15);
             $table->string('assunto');
             $table->text('descricao');
-            $table->string('local');
-            $table->dateTime('horario_atendimento');
+            $table->string('local')->nullable();
+            $table->dateTime('horario_atendimento')->nullable();
 
             $table->enum('prioridade', ['baixa', 'média', 'alta', 'urgente']);
             $table->integer('categoria_id');
-            $table->uuid('suporte_id');
+            $table->uuid('suporte_id')->nullable();
+            $table->softDeletes();
+            $table->uuid("departament_id");
+
+            $table->enum('status', ['aberto', 'andamento', 'fechado'])->default('aberto');
 
             //Constraint
             $table->foreign('suporte_id')
                     ->references('id')
                     ->on('users');
 
-            
             $table->foreign('categoria_id')
                     ->references('id')
                     ->on('categorias');
+
+            $table->foreign("departament_id")
+                    ->references("id")
+                    ->on("departaments");
         });
     }
 
