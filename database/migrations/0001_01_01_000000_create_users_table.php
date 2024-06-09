@@ -20,8 +20,8 @@ return new class extends Migration
             $table->rememberToken();
             $table->timestamps();
 
-            $table->uuid('departament_id')->nullable(false);
-            $table->uuid('group_id')->nullable(false);
+            $table->uuid('departament_id')->nullable(true);
+            $table->uuid('group_id')->nullable(true);
 
             $table->softDeletes();
 
