@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Departament;
+use App\Models\User;
 
 class DepartamentController extends Controller
 {
@@ -30,5 +31,11 @@ class DepartamentController extends Controller
         $departamento = Departament::find($uuid);
         $departamento->update($validado);
         return $departamento;
+    }
+
+
+    public function getUsers(Departament $uuid)
+    {
+        return $uuid->users()->get();
     }
 }

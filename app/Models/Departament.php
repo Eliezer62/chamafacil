@@ -23,6 +23,6 @@ class Departament extends Model
 
     public function users()
     {
-        return $this->hasMany(User::class, 'id', 'departament_id');
+        return $this->hasMany(User::class, 'departament_id', 'id');
     }
 }

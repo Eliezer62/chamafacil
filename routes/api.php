@@ -22,6 +22,9 @@ Route::prefix('/departament')
 
         Route::put('/{uuid}', [DepartamentController::class, 'update'])
             ->name('update');
+
+        Route::get('/{uuid}', [DepartamentController::class, 'getUsers'])
+            ->name('users');
     })
     ->name('departament.');
 
@@ -36,6 +39,6 @@ Route::prefix('/group')
             ->name('show');
 
         Route::get('/{uuid}/users', [GroupController::class, 'getUsers'])
-            ->name('getusers');
+            ->name('users');
 
     })->name('group.');
