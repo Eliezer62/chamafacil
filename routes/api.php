@@ -89,34 +89,41 @@ Route::prefix('/auth')
             ->name('register');
 
         Route::post('/logout', [AuthController::class, 'logout'])
-            ->middleware('api:auth')
+            ->middleware('auth:api')
             ->name('logout');
 
         Route::post('/refresh', [AuthController::class, 'refresh'])
-            ->middleware('api:auth')
+            ->middleware('auth:api')
             ->name('refresh');
     })
     ->name('auth.');
 
 //Rotas para user
 
-Route::group(
-    [
-    'prefix'=>'/user',
-    'middleware'=>'api:auth'
-    ], function(){
-    Route::get('/')
-    ->name('index');
+Route::prefix('/user')
+    ->middleware(['auth:api'])
+    ->group(function(){
+        Route::get('/', [UserController::class,'index'])
+        ->name('index');
 
-    Route::get('/{uuid}')
-    ->name('show');
+        Route::get('/{uuid}', [UserController::class, 'show'])
+        ->name('show');
 
-    Route::post('/')
-    ->name('store');
+        Route::post('/', [UserController::class, 'store'])
+        ->name('store');
 
-    Route::put('/{uuid}')
-    ->name('edit');
+        Route::put('/{uuid}', [UserController::class, 'update'])
+        ->name('update');
 
-    Route::delete('/{uuid}')
-    ->name('delete');
-})->name('user.');
+        Route::delete('/{uuid}', [UserController::class, 'delete'])
+        ->name('delete');
+
+        Route::prefix('/{uuid}/alterar')
+            ->group(function(){
+                Route::post('/departament', [UserController::class, 'alterarDepartamento'])
+                    ->name('departament');
+
+                Route::post('/group/', [UserController::class, 'alterarGrupo'])
+                    ->name('gropo');
+            })->name('alterar.');
+    })->name('user.');
