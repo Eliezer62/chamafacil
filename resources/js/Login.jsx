@@ -40,12 +40,22 @@ export default function Login(){
             sessionStorage.setItem('user', JSON.stringify(response['user']));
             window.location = '/';
         }
+        else
+        {
+            const alert = document.getElementById('login-invalido');
+            alert.classList.remove("d-none");
+        }
     }
 
     return (
 
         <div className='row h-100 w-100 login-page'>
+            
             <div className="col-sm-4 login d-flex align-items-center justify-content-center align-middle">
+                <div id="login-invalido" class="alert alert-danger row d-none" role="alert">
+                    Login inválido<br/>
+                    Tente Novamente
+                </div>
                 <Form name="basic"
                     labelCol={{
                         span: 8,
