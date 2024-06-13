@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('/departament')
     ->group(function(){
         Route::get('/', [DepartamentController::class, 'index'])
-            ->middleware('auth:api')
             ->name('index');
 
         Route::get('/{uuid}', [DepartamentController::class, 'show'])
@@ -56,7 +55,6 @@ Route::prefix('/chamado')
             ->name('show');
         
         Route::post('/', [ChamadoController::class, 'store'])
-            ->middleware('auth:api')
             ->name('store');
 
         //Para o chamado atender um suporte
