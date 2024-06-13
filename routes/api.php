@@ -127,3 +127,12 @@ Route::prefix('/user')
                     ->name('gropo');
             })->name('alterar.');
     })->name('user.');
+
+
+//Obtem as categorias do chamado
+Route::prefix('/categoria')
+    ->group(function(){
+        Route::get('/', [CategoriaController::class, 'index'])
+            ->name('index');
+    })
+    ->name('categoria');
