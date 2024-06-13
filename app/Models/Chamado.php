@@ -28,7 +28,8 @@ class Chamado extends Model
         'descricao',
         'local',
         'horario_atendimento',
-        'suporte_id'
+        'suporte_id',
+        'departament_id'
     ];
 
 
