@@ -16,6 +16,7 @@
     "dependencies": {
         "antd": "^5.18.0",
         "bootstrap": "^5.3.3",
+        "dayjs": "^1.11.11",
         "react-router-dom": "^6.23.1"
     }
 }
