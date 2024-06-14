@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Auth from './Auth';
 import '../css/app.css';
-import { Form, Input, Select, DatePicker, ConfigProvider, Space, Button } from "antd";
+import { Form, Input, Select, DatePicker, ConfigProvider, Space, Button, Modal } from "antd";
 import locale from 'antd/locale/pt_BR';
 import dayjs from 'dayjs';
 
@@ -23,6 +23,8 @@ function Home()
     const [local, setLocal] = useState();
     const [departamento, setDepartamento] = useState();
     const [prioridade, setPrioridade] = useState('baixa');
+    const [loading, setLoading] = useState(false);
+    const [modal, contextHolder] = Modal.useModal();
 
     //default values
 
@@ -65,8 +67,21 @@ function Home()
         
     );
 
+
+    const sucesso = {
+        title: 'Sucesso',
+        content: (
+          <>
+            <p>Chamado enviado com sucesso</p>
+          </>
+        ),
+        onOk: ()=>{window.location = '/'}
+      };
+
     async function enviarChamado()
     {
+        setLoading(true);
+
         if(!!nome && !!email && !!telefone && !!assunto 
             && !!categoria && !!descricao && !!departamento && !!prioridade)
         {
@@ -88,7 +103,9 @@ function Home()
                     'horario_atendimento':horario,
                     'departament_id':departamento
                 }
-            }).then(response =>{console.log(response)});
+            }).then(response =>{
+                modal.info(sucesso);
+            });
         }
 
     }
@@ -224,7 +241,14 @@ function Home()
                             name='submit'
                         >
                             <Space>
-                                <Button type="primary" htmlType="submit" onClick={enviarChamado}>
+                                {contextHolder}
+                                <Button 
+                                    type="primary" 
+                                    htmlType="submit" 
+                                    onClick={enviarChamado} 
+                                    id="submit"
+                                    loading={loading}
+                                >
                                     Enviar
                                 </Button>
                                 <Button htmlType="button" onClick={()=>{window.location='/'}}>
