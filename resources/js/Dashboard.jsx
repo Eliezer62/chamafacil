@@ -7,7 +7,7 @@ import LayoutBasico from './LayoutBasico';
 const Dashboard = () =>
 {
     return (
-        <LayoutBasico className='p-0 m-0 w-100' nome="Dashboard">
+        <LayoutBasico className='p-0 m-0 w-100' nome='Dashboard'>
             
         </LayoutBasico>
     );
