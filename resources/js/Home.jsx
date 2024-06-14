@@ -53,7 +53,7 @@ function Home()
                     opcoes.push(
                         {
                             'value':categoria.id,
-                            'label':categoria.nome
+                            'label':categoria.nome+': '+categoria.descricao
                         }
                     )
                 });
@@ -229,7 +229,7 @@ function Home()
                                 <Button type="primary" htmlType="submit" onClick={enviarChamado}>
                                     Enviar
                                 </Button>
-                                <Button htmlType="button">
+                                <Button htmlType="button" onClick={()=>{window.location='/'}}>
                                     Limpar
                                 </Button>
                             </Space>
