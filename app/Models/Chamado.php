@@ -44,4 +44,10 @@ class Chamado extends Model
     {
         return $this->belongsTo(Categoria::class, 'categoria_id', 'id');
     }
+
+
+    public function departament()
+    {
+        return $this->belongsTo(Departament::class, 'departament_id', 'id');
+    }
 }
