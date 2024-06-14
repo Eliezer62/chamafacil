@@ -9,7 +9,7 @@ import Dashboard from './Dashboard';
 import Usuarios from './Usuarios';
 import Chamado from './Chamados';
 import Chamados from './Chamados';
-
+import Departamentos from './Departamentos';
 
 
 ReactDOM.createRoot(document.getElementById('app')).render(
@@ -21,6 +21,7 @@ ReactDOM.createRoot(document.getElementById('app')).render(
         <Route path="/dashboard" Component={Dashboard}/>
         <Route path='/chamados' Component={Chamados}/>
         <Route path='/usuarios' Component={Usuarios}/>
+        <Route path='/departamentos' Component={Departamentos}/>
       </Routes>
     </BrowserRouter>
 </React.StrictMode>
