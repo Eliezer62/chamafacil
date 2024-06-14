@@ -23,10 +23,9 @@ const LayoutBasico = (props) => {
                 <Layout>
                     <Content style={{ padding: '25px' }} className='w-100'>
                         <Breadcrumb style={{ margin: '16px 0' }}>
-                            <Breadcrumb.Item>User</Breadcrumb.Item>
-                            <Breadcrumb.Item>Bill</Breadcrumb.Item>
+                            <Breadcrumb.Item>{props.nome}</Breadcrumb.Item>
                         </Breadcrumb>
-                        
+                        {props.children}
                     </Content>
                 </Layout>
             </Layout>
