@@ -67,8 +67,6 @@ function Home()
 
     async function enviarChamado()
     {
-        console.log(nome, email, telefone, assunto, categoria, descricao, horario, local, departamento, prioridade);
-
         if(!!nome && !!email && !!telefone && !!assunto 
             && !!categoria && !!descricao && !!departamento && !!prioridade)
         {
