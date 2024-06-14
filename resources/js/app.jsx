@@ -5,6 +5,10 @@ import Login from './Login';
 import Home from './Home';
 import Auth from './Auth';
 import '../css/app.css';
+import Dashboard from './Dashboard';
+import Usuarios from './Usuarios';
+import Chamado from './Chamados';
+import Chamados from './Chamados';
 
 
 
@@ -14,7 +18,9 @@ ReactDOM.createRoot(document.getElementById('app')).render(
       <Routes>
         <Route path='/' Component={Home}/>
         <Route path="/login" Component={Login} />
-        <Route path="/dashboard"/>
+        <Route path="/dashboard" Component={Dashboard}/>
+        <Route path='/chamados' Component={Chamados}/>
+        <Route path='/usuarios' Component={Usuarios}/>
       </Routes>
     </BrowserRouter>
 </React.StrictMode>
