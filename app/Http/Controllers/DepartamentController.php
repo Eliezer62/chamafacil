@@ -38,4 +38,27 @@ class DepartamentController extends Controller
     {
         return $uuid->users()->get();
     }
+
+
+    public function store(Request $request)
+    {
+        $validado = $request->validate(
+            [
+                'nome'=>'string|max:255',
+                'descricao'=>'string|max:255'
+            ]
+            );
+
+        $departamento = Departament::create($validado);
+        return $departamento;
+    }
+
+
+    public function delete(string $uuid)
+    {
+        $departamento = Departament::find($uuid);
+        if(!is_null($departamento))
+            $departamento->delete();
+        return response('',200);
+    }
 }

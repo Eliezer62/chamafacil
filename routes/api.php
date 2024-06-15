@@ -11,6 +11,10 @@ Route::prefix('/departament')
         Route::get('/', [DepartamentController::class, 'index'])
             ->name('index');
 
+        Route::post('/', [DepartamentController::class, 'store'])
+            ->middleware('auth:api')
+            ->name('store');
+
         Route::get('/{uuid}', [DepartamentController::class, 'show'])
             ->middleware('auth:api')
             ->name('show');
@@ -18,6 +22,10 @@ Route::prefix('/departament')
         Route::put('/{uuid}', [DepartamentController::class, 'update'])
             ->middleware('auth:api')
             ->name('update');
+            
+        Route::delete('/{uuid}', [DepartamentController::class, 'delete'])
+            ->middleware('auth:api')
+            ->name('delete');
 
         Route::get('/{uuid}', [DepartamentController::class, 'getUsers'])
             ->middleware('auth:api')
