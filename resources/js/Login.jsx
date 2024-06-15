@@ -47,6 +47,9 @@ export default function Login(){
         }
     }
 
+    sessionStorage.removeItem('accessToken');
+    sessionStorage.removeItem('user');
+
     return (
 
         <div className='row h-100 w-100 login-page'>
