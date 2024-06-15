@@ -65,6 +65,10 @@ Route::prefix('/chamado')
         Route::post('/', [ChamadoController::class, 'store'])
             ->name('store');
 
+        Route::delete('/{uuid}', [ChamadoController::class, 'delete'])
+            ->middleware('auth:api')
+            ->name('delete');
+
         //Para o chamado atender um suporte
         Route::post('/{uuid}/atender', [ChamadoController::class, 'atenderChamado'])
             ->middleware('auth:api')
