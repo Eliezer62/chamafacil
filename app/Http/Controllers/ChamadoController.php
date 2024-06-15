@@ -9,7 +9,7 @@ class ChamadoController extends Controller
 {
     public function index()
     {
-        return Chamado::with('categoria')->with('departament')->get();
+        return Chamado::with('categoria')->with('departament')->with('atendente')->get();
     }
 
 
