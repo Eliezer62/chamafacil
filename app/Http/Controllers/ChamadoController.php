@@ -45,6 +45,32 @@ class ChamadoController extends Controller
     }
 
 
+    public function update(Request $request, string $uuid)
+    {
+        $chamado = Chamado::find($uuid);
+        if(is_null($chamado))
+            return response('', 404);
+
+        $validado = $request->validate([
+            'nome_solicitante'=>'required|max:255',
+            'email_solicitante'=>'required|max:255|email',
+            'telefone_solicitante'=>'required|max:15',
+            'assunto'=>'required|max:255',
+            'categoria_id'=>'required',
+            'prioridade'=>'required',
+            'descricao'=>'required',
+            'local'=>'',
+            'horario_atendimento'=>'',
+            'suporte_id'=>'',
+            'departament_id'=>'required'
+        ]);
+
+        $chamado->update($validado);
+
+        return response()->json($chamado, 200);
+    }
+
+
     public function delete(string $uuid)
     {
         $chamado = Chamado::find($uuid);

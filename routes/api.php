@@ -65,6 +65,10 @@ Route::prefix('/chamado')
         Route::post('/', [ChamadoController::class, 'store'])
             ->name('store');
 
+        Route::put('/{uuid}', [ChamadoController::class, 'update'])
+            ->middleware('auth:api')
+            ->name('update');
+
         Route::delete('/{uuid}', [ChamadoController::class, 'delete'])
             ->middleware('auth:api')
             ->name('delete');
