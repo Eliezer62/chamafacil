@@ -9,7 +9,11 @@ class ChamadoController extends Controller
 {
     public function index()
     {
-        return Chamado::with('categoria')->with('departament')->with('atendente')->get();
+        return Chamado::with('categoria')
+            ->with('departament')
+            ->with('atendente')
+            ->orderBy('created_at', 'DESC')
+            ->get();
     }
 
 
@@ -38,6 +42,16 @@ class ChamadoController extends Controller
 
         $chamado = Chamado::create($validado);
         return $chamado;
+    }
+
+
+    public function delete(string $uuid)
+    {
+        $chamado = Chamado::find($uuid);
+        if(!is_null($chamado))
+            $chamado->delete();
+
+        return response('', 200);
     }
 
 
