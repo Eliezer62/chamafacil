@@ -1,7 +1,9 @@
 import React, {useState} from 'react';
-import { Layout, Breadcrumb, theme }
+import { Layout, Breadcrumb, theme, ConfigProvider }
 from 'antd';
 import MenuBar from './MenuBar';
+import pt_BR from 'antd/es/locale/pt_BR';
+
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -25,7 +27,9 @@ const LayoutBasico = (props) => {
                         <Breadcrumb style={{ margin: '16px 0' }}>
                             <Breadcrumb.Item>{props.nome}</Breadcrumb.Item>
                         </Breadcrumb>
-                        {props.children}
+                        <ConfigProvider locale={pt_BR}>
+                            {props.children}
+                        </ConfigProvider>
                     </Content>
                 </Layout>
             </Layout>
