@@ -1,92 +1,144 @@
 import React, { useEffect, useState } from 'react';
 import LayoutBasico from './LayoutBasico';
-import { Table, Button } from 'antd';
+import { Table, Button, message } from 'antd';
 import axios from 'axios';
-
-const colunas = [
-    {
-        title:'Nome',
-        dataIndex:'nome_solicitante',
-        onFilter: (value, record) => record.name.indexOf(value) === 0,
-        sorter: (a, b) => a.nome_solicitante.localeCompare(b.nome_solicitante),
-        sortDirections: ['descend', 'ascend'],
-    },
-    {
-        title:'Assunto',
-        dataIndex:'assunto',
-        sorter: (a, b) => a.assunto.localeCompare(b.assunto),
-        sortDirections: ['descend', 'ascend'],
-    },
-    {
-        title:'Categoria',
-        dataIndex:'categoria',
-        filters: [
-            {
-                text:'Problema',
-                value: 'Problema'
-            },
-            {
-                text: 'Sugestão',
-                value: 'Sugestão'
-            },
-            {
-                text: 'Solicitação',
-                value: 'Solicitação'
-            },
-            {
-                text: 'Outro',
-                value: 'Outro'
-            }
-        ]
-    },
-    {
-        title:'Prioridade',
-        dataIndex:'prioridade',
-        filters: [
-            {
-                text:'Baixa',
-                value: 'baixa'
-            },
-            {
-                text: 'Média',
-                value: 'média'
-            },
-            {
-                text: 'Alta',
-                value: 'alta'
-            },
-            {
-                text: 'Urgente',
-                value: 'urgente'
-            }
-        ]
-    },
-    {
-        title:'Status',
-        dataIndex:'status',
-        filters: [
-            {
-                text:'Aberto',
-                value: 'aberto'
-            },
-            {
-                text: 'Andamento',
-                value: 'andamento'
-            },
-            {
-                text: 'Fechado',
-                value: 'fechado'
-            }
-        ]
-    },
-    {
-        title: 'Ações'
-    }
-]
-
+import dayjs from 'dayjs';
+import EditarChamado from './componentes/EditarChamado';
+import NovoChamado from './componentes/NovoChamado';
 
 const Chamados = () => {
     const [data, setData] = useState([]);
+    const [messageApi, contextHolder] = message.useMessage();
+    const [chamado, setChamado] = useState({});
+    const [editarAberto, setEditarAberto] = useState(false);
+    const [confirmLoading, setConfirmLoading] = useState(false);
+    const [novoAberto, setNovoAberto] = useState(false);
+
+    const colunas = [
+        {
+            title:'Assunto',
+            dataIndex:'assunto',
+            sorter: (a, b) => a.assunto.localeCompare(b.assunto),
+            sortDirections: ['descend', 'ascend'],
+        },
+        {
+            title:'Categoria',
+            dataIndex:'categoria',
+            filters: [
+                {
+                    text:'Problema',
+                    value: 'Problema'
+                },
+                {
+                    text: 'Sugestão',
+                    value: 'Sugestão'
+                },
+                {
+                    text: 'Solicitação',
+                    value: 'Solicitação'
+                },
+                {
+                    text: 'Outro',
+                    value: 'Outro'
+                }
+            ]
+        },
+        {
+            title:'Prioridade',
+            dataIndex:'prioridade',
+            filters: [
+                {
+                    text:'Baixa',
+                    value: 'baixa'
+                },
+                {
+                    text: 'Média',
+                    value: 'média'
+                },
+                {
+                    text: 'Alta',
+                    value: 'alta'
+                },
+                {
+                    text: 'Urgente',
+                    value: 'urgente'
+                }
+            ]
+        },
+        {
+            title:'Status',
+            dataIndex:'status',
+            filters: [
+                {
+                    text:'Aberto',
+                    value: 'aberto'
+                },
+                {
+                    text: 'Andamento',
+                    value: 'andamento'
+                },
+                {
+                    text: 'Fechado',
+                    value: 'fechado'
+                }
+            ]
+        },
+        {
+            title: 'Data de abertura',
+            dataIndex:'created_at',
+            render: ((date) =>{
+                const data = new Date(Date.parse(date));
+                return dayjs(data).format('DD/MM/YYYY HH:MM');
+            })
+        },
+        {
+            title:'Atendente',
+            dataIndex:'atendente'
+        },
+        {
+            title: 'Ações',
+            render:(_, dado)=>(
+                <div>
+                    <a className='primary'
+                        onClick={async ()=> {
+                            const user = JSON.parse(sessionStorage.getItem('user'));
+                            const response = await axios({
+                                method:'POST',
+                                url:'/api/chamado/'+dado.id+'/atender',
+                                headers: {'Authorization':'Bearer '+sessionStorage.getItem('accessToken')},
+                                data:{
+                                    suporte_id:user.id
+                                }
+                            });
+                            if(response.status==200) messageApi.success('Chamado atendido com sucesso');
+                            else messageApi.error('Erro em atender chamado');
+                        }}
+                    >
+                        Atender
+                    </a>&nbsp;
+                    <a className='primary' 
+                        onClick={()=>{
+                            setChamado(dado);
+                            setEditarAberto(true);
+                    }}>
+                        Editar
+                    </a>&nbsp;
+                    <a className='primary'
+                        onClick={async ()=>{
+                            const response = await axios.delete('/api/chamado/'+dado.id,
+                                {
+                                    headers: {'Authorization':'Bearer '+sessionStorage.getItem('accessToken')},
+                                }
+                            );
+                            if(await response.status == 200) messageApi.success('Chamado removido com sucesso');
+                            else messageApi.error('Erro em remover chamado '+response.message);
+                        }}
+                    >
+                        Remover
+                    </a>
+                </div>)
+        }
+    ]
 
     useEffect(()=>{
         const getChamados = async() => {
@@ -98,24 +150,82 @@ const Chamados = () => {
 
             const data = await response.data;
             data.forEach(chamado => {
-                chamado.categoria = chamado.categoria.nome
+                chamado.categoria = chamado.categoria.nome;
+                if(chamado.atendente)chamado.atendente = chamado.atendente.name;
             });
             setData(data);
         }
         getChamados();
     });
 
+    const handleOk = async () => {
+        setConfirmLoading(true);
+        const response = await axios({
+            method:'PUT',
+            url:'/api/chamado/'+chamado.id,
+            headers: {'Authorization':'Bearer '+sessionStorage.getItem('accessToken')},
+            data:chamado
+        });
+        setEditarAberto(false);
+        setConfirmLoading(false);
+        if(response.status==200) messageApi.success('Chamado editado com sucesso');
+        else messageApi.error('Erro em editar o chamado');
+    }
+
+
+    const handleCancelar = () => {
+        setEditarAberto(false);
+        setNovoAberto(false);
+    }
+
+
+    const handleEnviar = async () => {
+        setConfirmLoading(true);
+        const response = await axios({
+            method:'POST',
+            url:'/api/chamado',
+            headers: {'Authorization':'Bearer '+sessionStorage.getItem('accessToken')},
+            data:chamado
+        });
+        if(response.status == 200) messageApi.success('Chamado criado com sucesso');
+        else messageApi.error('Erro em criar o chamado');
+        setNovoAberto(false);
+        setConfirmLoading(false);
+    }
 
     return (
         <LayoutBasico className='p-0 m-0 w-100' nome="Chamados">
             <div className='row d-flex m-3 float-end'>
                 <div className='col'>
-                    <Button type="primary">Adicionar</Button>
+                    <Button type="primary"
+                        onClick={()=>{
+                            setChamado({});
+                            setNovoAberto(true);
+                        }}
+                    >Adicionar</Button>
                 </div>
             </div>
             <Table 
                 columns={colunas}
                 dataSource={data}
+            />
+            {contextHolder}
+            <EditarChamado
+                aberto={editarAberto}
+                chamado={chamado}
+                handleCancelar={handleCancelar}
+                changeChamado={setChamado}
+                handleOk={handleOk}
+                confirmLoading={confirmLoading}
+            />
+
+            <NovoChamado
+                aberto={novoAberto}
+                chamado={chamado}
+                handleCancelar={handleCancelar}
+                handleOk={handleEnviar}
+                changeChamado={setChamado}
+                confirmLoading={confirmLoading}
             />
         </LayoutBasico>
     );
