@@ -4,6 +4,7 @@ import { Button, Space, Table, message } from 'antd';
 import axios from 'axios';
 import EditarDepartamento from './componentes/EditarDepartamento';
 import NovoDepartamento from './componentes/NovoDepartamento';
+import Auth from './Auth'
 
 
 const Departamentos = ()=>{
@@ -124,6 +125,7 @@ const Departamentos = ()=>{
     return (
         
         <LayoutBasico className='p-0 m-0 w-100' nome="Departamentos">
+            <Auth/>
             <div className='row d-flex m-3 float-end'>
                 <div className='col'>
                     <Button type="primary" onClick={abrirNovoModal}>Adicionar</Button>
