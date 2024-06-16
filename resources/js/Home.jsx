@@ -65,7 +65,7 @@ function Home()
             getDepartamentos();
     }
         
-    );
+    ,[]);
 
 
     const sucesso = {

@@ -116,7 +116,7 @@ const Usuarios = () => {
             setDepartamentos(opcoes);
         }
         getDepartamentos();
-    });
+    }, [usuario]);
 
 
     const handleCancelar = () => {

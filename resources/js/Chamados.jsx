@@ -159,7 +159,7 @@ const Chamados = () => {
             setData(data);
         }
         getChamados();
-    });
+    }, [chamado]);
 
     const handleOk = async () => {
         setConfirmLoading(true);

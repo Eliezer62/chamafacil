@@ -128,7 +128,7 @@ const Departamentos = ()=>{
             setData(data);
         }
         getDepartamentos();
-    });
+    }, [confirmLoading, nome, descricao]);
 
 
     return (
