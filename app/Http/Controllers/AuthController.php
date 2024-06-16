@@ -85,4 +85,10 @@ class AuthController extends Controller
             ]
         ]);
     }
+
+
+    public function check()
+    {
+        return response()->json(['valido'=>Auth::check()]);
+    }
 }

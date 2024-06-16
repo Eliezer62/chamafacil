@@ -109,6 +109,9 @@ Route::prefix('/auth')
         Route::post('/refresh', [AuthController::class, 'refresh'])
             ->middleware('auth:api')
             ->name('refresh');
+
+        Route::get('/check', [AuthController::class, 'check'])
+            ->name('check');
     })
     ->name('auth.');
 
