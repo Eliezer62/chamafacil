@@ -141,6 +141,8 @@ const Usuarios = () => {
                 group:usuario.group_id
             }
         }).catch( ()=>{
+            setConfirmLoading(false);
+            setMostrarEditar(false);
             mensagemAPI.error('Não foi possível atualizar o usuário');
         });
         if(await response.status==200)mensagemAPI.success('Usuário atualizado com sucesso');
@@ -167,6 +169,8 @@ const Usuarios = () => {
             },
             data:data
         }).catch((error)=>{
+            setConfirmLoading(false);
+            setMostrarNovo(false);
             mensagemAPI.error('Não foi possível atualizar o usuário');
         });
         setMostrarNovo(false);
