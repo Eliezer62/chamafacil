@@ -78,6 +78,16 @@ function Home()
         onOk: ()=>{window.location = '/'}
       };
 
+
+    const erro = {
+        title: 'Erro',
+        content: (
+            <>
+              <p>Erro em enviar chamado, tente novamente</p>
+            </>
+        ),
+    }
+
     async function enviarChamado()
     {
         setLoading(true);
@@ -105,6 +115,8 @@ function Home()
                 }
             }).then(response =>{
                 modal.info(sucesso);
+            }).catch(error => {
+                modal.error(erro);
             });
         }
 

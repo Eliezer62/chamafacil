@@ -49,9 +49,10 @@ const Departamentos = ()=>{
                                 {
                                     headers: {'Authorization':'Bearer '+sessionStorage.getItem('accessToken')},
                                 }
-                            );
-                            if(response.status == 200) messageApi.success('Removido com sucesso');
-                            else messageApi.error('Erro em remover departamento');
+                            ).catch(error=>{
+                                messageApi.error('Erro em remover departamento');
+                            });
+                            if(response.status == 200) messageApi.success('Removido com sucesso'); 
                         }}
                     >
                         Remover
@@ -78,8 +79,11 @@ const Departamentos = ()=>{
                     descricao: descricao
                 }
             }
-        );
-        if(response.status!=200)messageApi.error('Erro em editar o departamento');
+        ).catch(error=>{
+            messageApi.error('Erro em editar departamento');
+            setAberto(false);
+            setConfirmLoading(false);
+        });
         setAberto(false);
         setConfirmLoading(false);
         messageApi.success('Departamento editado com sucesso');
@@ -100,8 +104,11 @@ const Departamentos = ()=>{
                 nome:nome,
                 descricao:descricao
             }
-        })
-        if(response.status != 201) messageApi.error('Erro em criar o departamento');
+        }).catch(error=>{
+            setAbertoNovo(false);
+            setConfirmLoading(false);
+            messageApi.error('Erro em criar o departamento');
+        });
         setAbertoNovo(false);
         setConfirmLoading(false);
         messageApi.success('Departamento criado com sucesso');

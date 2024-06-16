@@ -110,9 +110,10 @@ const Chamados = () => {
                                 data:{
                                     suporte_id:user.id
                                 }
+                            }).catch(error =>{
+                                messageApi.error('Erro em atender chamado');
                             });
                             if(response.status==200) messageApi.success('Chamado atendido com sucesso');
-                            else messageApi.error('Erro em atender chamado');
                         }}
                     >
                         Atender
@@ -130,9 +131,10 @@ const Chamados = () => {
                                 {
                                     headers: {'Authorization':'Bearer '+sessionStorage.getItem('accessToken')},
                                 }
-                            );
+                            ).catch(error => {
+                                messageApi.error('Erro em remover chamado');
+                            });
                             if(await response.status == 200) messageApi.success('Chamado removido com sucesso');
-                            else messageApi.error('Erro em remover chamado '+response.message);
                         }}
                     >
                         Remover
@@ -166,11 +168,14 @@ const Chamados = () => {
             url:'/api/chamado/'+chamado.id,
             headers: {'Authorization':'Bearer '+sessionStorage.getItem('accessToken')},
             data:chamado
+        }).catch(error => {
+            setEditarAberto(false);
+            setConfirmLoading(false);
+            messageApi.error('Erro em editar o chamado');
         });
         setEditarAberto(false);
         setConfirmLoading(false);
-        if(response.status==200) messageApi.success('Chamado editado com sucesso');
-        else messageApi.error('Erro em editar o chamado');
+        if(response.status==200) messageApi.success('Chamado editado com sucesso'); 
     }
 
 
@@ -187,11 +192,12 @@ const Chamados = () => {
             url:'/api/chamado',
             headers: {'Authorization':'Bearer '+sessionStorage.getItem('accessToken')},
             data:chamado
+        }).catch(error => {
+            setNovoAberto(false);
+            setConfirmLoading(false);
+            messageApi.error('Erro em criar o chamado');
         });
         if(response.status == 200) messageApi.success('Chamado criado com sucesso');
-        else messageApi.error('Erro em criar o chamado');
-        setNovoAberto(false);
-        setConfirmLoading(false);
     }
 
     return (
