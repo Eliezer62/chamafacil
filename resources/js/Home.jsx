@@ -112,9 +112,12 @@ function Home()
 
     return (
         
-        <div className='container p-0 m-0'>
+        <div className='container p-0 m-0' style={{overflowX:'hidden'}}>
             <nav className='nav-bar'>
                 <h3 className='align-center'>Novo chamado - ChamaFácil</h3>
+                <div className='d-flex mr-4'>
+                    <Button color='primary' onClick={()=>{window.location='/chamados'}}>Chamados</Button>
+                </div>
             </nav>
             <div className='d-flex align-items-center justify-content-center align-middle'>
 
