@@ -46,7 +46,7 @@ const NovoChamado = (props) => {
             getDepartamentos();
     }
         
-    );
+    ,[]);
 
     return (
         <div className='p-0 m-0'>
@@ -122,8 +122,11 @@ const NovoChamado = (props) => {
                         <Form.Item
                             label='Categoria'
                             name='categoria'
+                            rules={[
+                                {required:true, message:'Categoria é  é obrigatório'}
+                            ]}
                         >
-                            <Select defaultValue={1} options={categorias}
+                            <Select placeholder="Selecionar categoria" options={categorias}
                                 onChange={e => {
                                     props.chamado.categoria_id = e;
                                     props.changeChamado(props.chamado);
@@ -192,8 +195,11 @@ const NovoChamado = (props) => {
                         <Form.Item
                             name='prioridade'
                             label='Prioridade'
+                            rules={[
+                                {required:true, message:'Assunto é  é obrigatório'}
+                            ]}
                         >
-                            <Select defaultValue='baixa'
+                            <Select
                                 options={[
                                     {'value':'baixa', 'label':'Baixa'},
                                     {'value':'média', 'label':'Média'},
@@ -204,6 +210,7 @@ const NovoChamado = (props) => {
                                     props.chamado.prioridade = e;
                                     props.changeChamado(props.chamado);
                                 }}    
+                                placeholder='Prioridade do chamado'
                             />
                         </Form.Item>
                 </Form>

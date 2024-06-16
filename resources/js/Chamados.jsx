@@ -14,6 +14,7 @@ const Chamados = () => {
     const [editarAberto, setEditarAberto] = useState(false);
     const [confirmLoading, setConfirmLoading] = useState(false);
     const [novoAberto, setNovoAberto] = useState(false);
+    const [update, setUpdate] = useState(false);
 
     const colunas = [
         {
@@ -114,6 +115,7 @@ const Chamados = () => {
                                 messageApi.error('Erro em atender chamado');
                             });
                             if(response.status==200) messageApi.success('Chamado atendido com sucesso');
+                            setUpdate(!update);
                         }}
                     >
                         Atender
@@ -135,6 +137,7 @@ const Chamados = () => {
                                 messageApi.error('Erro em remover chamado');
                             });
                             if(await response.status == 200) messageApi.success('Chamado removido com sucesso');
+                            setUpdate(!update);
                         }}
                     >
                         Remover
@@ -159,7 +162,7 @@ const Chamados = () => {
             setData(data);
         }
         getChamados();
-    }, [chamado]);
+    }, [confirmLoading, update]);
 
     const handleOk = async () => {
         setConfirmLoading(true);
@@ -186,6 +189,7 @@ const Chamados = () => {
 
 
     const handleEnviar = async () => {
+        console.log(chamado);
         setConfirmLoading(true);
         const response = await axios({
             method:'POST',
@@ -197,7 +201,7 @@ const Chamados = () => {
             setConfirmLoading(false);
             messageApi.error('Erro em criar o chamado');
         });
-        if(response.status == 200) messageApi.success('Chamado criado com sucesso');
+        if(response.status == 201) messageApi.success('Chamado criado com sucesso');
         setNovoAberto(false);
         setConfirmLoading(false);
     }
