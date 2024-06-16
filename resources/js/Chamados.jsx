@@ -198,6 +198,8 @@ const Chamados = () => {
             messageApi.error('Erro em criar o chamado');
         });
         if(response.status == 200) messageApi.success('Chamado criado com sucesso');
+        setNovoAberto(false);
+        setConfirmLoading(false);
     }
 
     return (

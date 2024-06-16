@@ -140,7 +140,7 @@ const Usuarios = () => {
                 departament_id:usuario.departament_id,
                 group:usuario.group_id
             }
-        }).catch( ()=>{
+        }).catch( (error)=>{
             setConfirmLoading(false);
             setMostrarEditar(false);
             mensagemAPI.error('Não foi possível atualizar o usuário');
@@ -171,7 +171,7 @@ const Usuarios = () => {
         }).catch((error)=>{
             setConfirmLoading(false);
             setMostrarNovo(false);
-            mensagemAPI.error('Não foi possível atualizar o usuário');
+            mensagemAPI.error('Não foi possível salvar o usuário');
         });
         setMostrarNovo(false);
         setConfirmLoading(false);

@@ -86,10 +86,12 @@ const Departamentos = ()=>{
         });
         setAberto(false);
         setConfirmLoading(false);
-        messageApi.success('Departamento editado com sucesso');
+        if(response.status==200) messageApi.success('Departamento editado com sucesso');
     }
 
     const abrirNovoModal = () => {
+        setNome(null);
+        setDescricao(null);
         setAbertoNovo(true);
     }
 
@@ -111,7 +113,7 @@ const Departamentos = ()=>{
         });
         setAbertoNovo(false);
         setConfirmLoading(false);
-        messageApi.success('Departamento criado com sucesso');
+        if(response.status==201)messageApi.success('Departamento criado com sucesso');
     }
 
     useEffect(()=>{
