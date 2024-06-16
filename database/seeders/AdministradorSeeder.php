@@ -18,8 +18,8 @@ class AdministradorSeeder extends Seeder
         User::create([
             'name'=>'administrador',
             'email'=>'administrador@email.com',
-            'group_id'=>'9c3f26c8-d4aa-460a-b626-5eafb552c080',
-            'departament_id'=>'9c3f2715-eb4e-429a-aac5-1b9bc3cdaf4a',
+            'group_id'=>'9c4c2699-4530-4a9f-ab57-4ca24d002f99',
+            'departament_id'=>'9c4c265c-5217-4613-8883-a9eca5119c0d',
             'password'=>Hash::make('administrador')
         ]);
     }
