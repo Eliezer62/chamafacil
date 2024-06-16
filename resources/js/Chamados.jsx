@@ -5,6 +5,7 @@ import axios from 'axios';
 import dayjs from 'dayjs';
 import EditarChamado from './componentes/EditarChamado';
 import NovoChamado from './componentes/NovoChamado';
+import Auth from './Auth';
 
 const Chamados = () => {
     const [data, setData] = useState([]);
@@ -195,6 +196,7 @@ const Chamados = () => {
 
     return (
         <LayoutBasico className='p-0 m-0 w-100' nome="Chamados">
+            <Auth/>
             <div className='row d-flex m-3 float-end'>
                 <div className='col'>
                     <Button type="primary"
