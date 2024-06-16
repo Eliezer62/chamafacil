@@ -38,7 +38,7 @@ export default function Login(){
         {
             sessionStorage.setItem('accessToken', response['authorisation']['token']);
             sessionStorage.setItem('user', JSON.stringify(response['user']));
-            window.location = '/';
+            window.location = '/chamados';
         }
         else
         {
