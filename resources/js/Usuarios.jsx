@@ -192,7 +192,6 @@ const Usuarios = () => {
                 handleCancelar={handleCancelar}
                 grupos={grupos}
                 departamentos={departamentos}
-                usuario={usuario}
                 changeUsuario={setusuario}
                 handleOk={handleOk}
             />
@@ -204,7 +203,6 @@ const Usuarios = () => {
                 handleCancelar={handleCancelar}
                 grupos={grupos}
                 departamentos={departamentos}
-                usuario={usuario}
                 changeUsuario={setusuario}
                 handleOk={salvarUsuario}
             />
