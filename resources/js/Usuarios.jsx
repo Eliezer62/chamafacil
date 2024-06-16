@@ -13,7 +13,7 @@ const Usuarios = () => {
     const [usuarios, setUsuarios] = useState([]);
     const [mensagemAPI, contextHolder] = message.useMessage();
     const [mostrarEditar, setMostrarEditar] = useState(false);
-    const [confirmLoading, setConfirmLoading] = useState(true);
+    const [confirmLoading, setConfirmLoading] = useState(false);
     const [usuario, setusuario] = useState({});
     const [grupos, setGrupos] = useState();
     const [departamentos, setDepartamentos] = useState();
@@ -56,10 +56,11 @@ const Usuarios = () => {
                             mensagemAPI.loading('Removendo usuário');
                             const response = await axios.delete('/api/user/'+dado.id,{
                                 headers: {'Authorization':'Bearer '+sessionStorage.getItem('accessToken')},
-                            })
+                            }).catch( error=>{
+                                mensagemAPI.error('Não foi possível remover o usuário');
+                            });
                             mensagemAPI.destroy();
-                            if(response.status==200)mensagemAPI.success('Usuário apagado com sucesso');
-                            else mensagemAPI.error('Não foi possível remover o usuário');
+                            mensagemAPI.success('Usuário apagado com sucesso');
                         }}
                     >Remover</a>
                 </>
@@ -76,7 +77,7 @@ const Usuarios = () => {
             data.forEach(usuario => {
                 usuario.departamento = usuario.departament.nome;
                 usuario.grupo = usuario.group.nome;
-            })
+            });
             setUsuarios(await data);
             setLoadingTable(false);
         }
@@ -139,9 +140,10 @@ const Usuarios = () => {
                 departament_id:usuario.departament_id,
                 group:usuario.group_id
             }
+        }).catch( ()=>{
+            mensagemAPI.error('Não foi possível atualizar o usuário');
         });
         if(await response.status==200)mensagemAPI.success('Usuário atualizado com sucesso');
-        else mensagemAPI.error('Não foi possível atualizar o usuário');
         setMostrarEditar(false);
         setConfirmLoading(false);
     }
@@ -164,11 +166,12 @@ const Usuarios = () => {
                 'Authorization':'Bearer '+sessionStorage.getItem('accessToken')
             },
             data:data
+        }).catch((error)=>{
+            mensagemAPI.error('Não foi possível atualizar o usuário');
         });
         setMostrarNovo(false);
         setConfirmLoading(false);
         if(response.status==200)mensagemAPI.success('Usuário salvo com sucesso');
-        else mensagemAPI.error('Não foi possível salvar o usuário');
     }
 
     return (
