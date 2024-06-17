@@ -18,13 +18,14 @@ const Usuarios = () => {
     const [grupos, setGrupos] = useState();
     const [departamentos, setDepartamentos] = useState();
     const [mostrarNovo, setMostrarNovo] = useState(false);
+    const [update, setUpdate] = useState(false);
 
     const colunas = [
         {
             title:'Nome',
             dataIndex:'name',
             onFilter: (value, record) => record.name.indexOf(value) === 0,
-            sorter: (a, b) => a.nome.localeCompare(b.nome),
+            sorter: (a, b) => a.name.localeCompare(b.name),
             sortDirections: ['descend', 'ascend'],
         },
         {
@@ -48,8 +49,8 @@ const Usuarios = () => {
                 <>
                     <a className='primary' 
                         onClick={()=>{
-                            setMostrarEditar(true);
                             setusuario(dado);
+                            setMostrarEditar(true);
                         }}>Editar</a>&nbsp;
                     <a className='primary'
                         onClick={async ()=>{
@@ -61,6 +62,7 @@ const Usuarios = () => {
                             });
                             mensagemAPI.destroy();
                             mensagemAPI.success('Usuário apagado com sucesso');
+                            setUpdate(!update);
                         }}
                     >Remover</a>
                 </>
@@ -116,7 +118,7 @@ const Usuarios = () => {
             setDepartamentos(opcoes);
         }
         getDepartamentos();
-    }, [usuario]);
+    }, [usuario, update]);
 
 
     const handleCancelar = () => {
@@ -148,6 +150,7 @@ const Usuarios = () => {
         if(await response.status==200)mensagemAPI.success('Usuário atualizado com sucesso');
         setMostrarEditar(false);
         setConfirmLoading(false);
+        setUpdate(!update);
     }
 
 
@@ -176,6 +179,7 @@ const Usuarios = () => {
         setMostrarNovo(false);
         setConfirmLoading(false);
         if(response.status==200)mensagemAPI.success('Usuário salvo com sucesso');
+        setUpdate(!update);
     }
 
     return (
