@@ -78,6 +78,11 @@ Route::prefix('/chamado')
             ->middleware('auth:api')
             ->name('atender');
 
+        //Rotas para fechar o chamado
+        Route::get('/{uuid}/fechar', [ChamadoController::class, 'fecharChamado'])
+            ->middleware('auth:api')
+            ->name('fechar');
+
         /**
          * Rotas para alterar dados do chamado
          * que não podem ser alterados via campo

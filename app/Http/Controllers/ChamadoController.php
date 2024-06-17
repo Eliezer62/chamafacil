@@ -85,7 +85,8 @@ class ChamadoController extends Controller
     {
         $chamado = Chamado::find($uuid);
         $chamado->update([
-            'suporte_id'=>$request->input('suporte_id')
+            'suporte_id'=>$request->input('suporte_id'),
+            'status'=>'andamento'
         ]);
 
         return $chamado;
@@ -100,5 +101,16 @@ class ChamadoController extends Controller
         ]);
 
         return $chamado;
+    }
+
+
+    public function fecharChamado(string $uuid)
+    {
+        $chamado = Chamado::find($uuid);
+        $chamado->update([
+            'status'=>'fechado'
+        ]);
+
+        return response()->json('', 200);
     }
 }

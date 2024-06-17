@@ -142,6 +142,18 @@ const Chamados = () => {
                     >
                         Remover
                     </a>
+                    <br/>
+                    <a className='primary'
+                        onClick={async()=>{
+                            const response = await axios.get('/api/chamado/'+dado.id+'/fechar',{
+                                headers: {'Authorization':'Bearer '+sessionStorage.getItem('accessToken')},
+                            }).catch(error => {messageApi.error('Erro em fechar o chamado')});
+                            if(await response.status == 200) messageApi.success('Chamado fechado com sucesso');
+                            setUpdate(!update);
+                        }}
+                    >
+                            Fechar
+                    </a>
                 </div>)
         }
     ]
