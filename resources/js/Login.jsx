@@ -1,65 +1,59 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Button, Checkbox, Form, Input } from 'antd'
+import { Button, Checkbox, Form, Input, Modal } from 'antd'
 import { useState } from 'react';
+import axios from 'axios';
 
-
-const onFinish = (values) => {
-    console.log('Success:', values);
-};
-const onFinishFailed = (errorInfo) => {
-    console.log('Failed:', errorInfo);
-};
-
-async function loginJWT(credentials)
-{
-    return fetch('http://127.0.0.1:8000/api/auth/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(credentials)
-      })
-        .then(data => data.json());
-}
 
 
 export default function Login(){
+    sessionStorage.removeItem('accessToken');
+    sessionStorage.removeItem('user');
     const [email, setEmail] = useState();
     const [password, setPassword] = useState();
+    const [loading, setLoading] = useState(false);
+    const [modal, contextHolder] = Modal.useModal();
+
+    const erro = {
+        title:"Erro login",
+        content: (
+            <>
+                <p>Senha ou e-mail inválido</p>
+            </>
+        )
+    }
+
 
     const handleSubmit = async e => {
-        e.preventDefault();
-        const response = await loginJWT({
-          email,
-          password
-        });
-        if("authorisation" in response)
+        if(!email || !password)return;
+        setLoading(true);
+        const response = await axios({
+            method:'POST',
+            url:'/api/auth/login',
+            data:{
+                email:email,
+                password:password,
+            }
+        }).catch(error=>{
+            setLoading(false);
+            modal.error(erro);
+        })
+        if(response.status==200)
         {
-            sessionStorage.setItem('accessToken', response['authorisation']['token']);
-            sessionStorage.setItem('user', JSON.stringify(response['user']));
+            const data = await response.data;
+            sessionStorage.setItem('accessToken', data.authorisation.token);
+            sessionStorage.setItem('user', JSON.stringify(data.user));
             window.location = '/chamados';
-        }
-        else
-        {
-            const alert = document.getElementById('login-invalido');
-            alert.classList.remove("d-none");
         }
     }
 
-    sessionStorage.removeItem('accessToken');
-    sessionStorage.removeItem('user');
 
     return (
 
         <div className='row h-100 w-100 login-page'>
-            
+            {contextHolder}
             <div className="col-sm-4 login d-flex align-items-center justify-content-center align-middle">
-                <div id="login-invalido" class="alert alert-danger row d-none" role="alert">
-                    Login inválido<br/>
-                    Tente Novamente
-                </div>
-                <Form name="basic"
+                <Form name="login"
                     labelCol={{
                         span: 8,
                     }}
@@ -72,9 +66,7 @@ export default function Login(){
                     initialValues={{
                         remember: true,
                     }}
-                    onFinish={onFinish}
-                    onFinishFailed={onFinishFailed}
-                    autoComplete="off"
+                    autoComplete="true"
                 >
                     <Form.Item
                         label="E-mail"
@@ -109,7 +101,12 @@ export default function Login(){
                     span: 16,
                     }}
                 >
-                    <Button type="primary" htmlType="submit" onClick={handleSubmit}>
+                    <Button 
+                        type="primary" 
+                        htmlType="submit" 
+                        onClick={handleSubmit}
+                        loading={loading}
+                    >
                     Login
                     </Button>
                 </Form.Item>
