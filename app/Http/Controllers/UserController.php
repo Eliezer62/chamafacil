@@ -34,7 +34,7 @@ class UserController extends Controller
             'group_id'=>''
         ]);
 
-        $validado['password'] = Hash::make($validado['password']);
+
 
         $user = User::create($validado);
 

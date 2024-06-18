@@ -161,7 +161,7 @@ const Usuarios = () => {
             email:usuario.email,
             departament_id:usuario.departament_id,
             group_id:usuario.group_id,
-            password:'senha1234'
+            password:usuario.password
         }
 
         const response = await axios({

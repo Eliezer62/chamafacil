@@ -59,7 +59,7 @@ const NovoUsuario = (props) => {
                             min={8}
                             maxLength={255}
                             onChange={e=>{
-                                usuario.password = e.target.value;
+                                props.usuario.password = e.target.value;
                                 changeUsuario(usuario);
                             }}
                         />
