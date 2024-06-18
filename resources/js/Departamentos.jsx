@@ -53,6 +53,8 @@ const Departamentos = ()=>{
                                 messageApi.error('Erro em remover departamento');
                             });
                             if(response.status == 200) messageApi.success('Removido com sucesso'); 
+                            setConfirmLoading(true);
+                            setConfirmLoading(false);
                         }}
                     >
                         Remover
